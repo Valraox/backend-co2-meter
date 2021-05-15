@@ -97,7 +97,7 @@ var controller = {
         // Recoger id de dispositivo
         var deviceId = req.params.deviceId;
 
-        // Buscar el artículo
+        // Buscar las medidas
         CO2Measure.find({
             deviceId: deviceId
         }).exec((err, measures) => {
@@ -123,6 +123,63 @@ var controller = {
                     measures
                 });
             }
+        });
+    },
+
+    /*
+     ** Método para devolver todas las unidades de medida
+     ** GET params: deviceId, dateStart, dateEnd
+     ** return HTTP response
+     */
+    searchMeasures: (req, res) => {
+        // Recoger parámetros GET
+        var deviceId = req.query.deviceId;
+        var dateStart = req.query.dateStart;
+        var dateEnd = req.query.dateEnd;
+        var dateFind = req.query.date;
+
+        // Crear objeto JSON para búsqueda
+        var findQuery = {};
+
+        if (deviceId) {
+            findQuery.deviceId = deviceId;
+        }
+
+        if (dateStart && dateEnd) {
+            findQuery.date = {
+                $gte: dateStart,
+                $lte: dateEnd
+            };
+        } else if (dateStart) {
+            findQuery.date = {
+                $gte: dateStart
+            };
+        } else if (dateEnd) {
+            findQuery.date = {
+                $lte: dateEnd
+            };
+        } else if (dateFind) {
+            findQuery.date = {
+                $gte: new Date(dateFind).setHours(0, 0, 0),
+                $lte: new Date(dateFind).setHours(23, 59, 59)
+            };
+        }
+
+        // Buscar las medidas
+        CO2Measure.find(findQuery).exec((err, measures) => {
+
+            if (err) {
+                return res.status(500).send({
+                    status: 'error',
+                    findQuery,
+                    message: 'Error al obtener las medidas'
+                });
+            }
+
+            return res.status(200).send({
+                status: 'success',
+                measures
+            });
         });
     },
 };

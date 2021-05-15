@@ -9,5 +9,6 @@ var router = express.Router();
 router.post('/save', CO2MeasureController.save);
 router.get('/get-all/:sort?', CO2MeasureController.getAllMeasures);
 router.get('/get-measures/:deviceId', CO2MeasureController.getDeviceMeasures);
+router.get('/search', CO2MeasureController.searchMeasures);
 
 module.exports = router;
