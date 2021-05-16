@@ -31,3 +31,11 @@ Para poner a la escucha el servidor de Node ejecutaremos
 El servidor estará a la escucha en el puerto 3800. Si queremos ejecutar para desarrollo con watcher para los cambios en los archivos utilizando nodemon usaremos
 
 `npm run dev`
+
+## Rutas de la API
+Las rutas disponibles por la API parten de la ruta con el servidor en ejecución `http://<ipaddres>:3800/api`
+
+- `/measures/save`: (POST) almacena una medida en la base de datos. Los parámetros del body que requiere son `deviceId` y `CO2ppm`
+- `/get-all/:sort?`: (GET) devuelve todas las medidas. Parámetro de URL opcional con campo a ordenar (añadir - al nombre del campo para ordenación descendente)
+- `/get-measures/:deviceId`: (GET) devuelve todas las medidas de un dispositivo. Parámetro de URL obligatorio con el identificador del dispositivo a buscar
+- `/search`: (GET) devuelve las medidas buscadas mediante parámetros GET. Admite los parámetros `deviceID` `dateStart` `dateEnd` y `date`
