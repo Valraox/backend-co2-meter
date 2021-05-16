@@ -19,7 +19,7 @@ Nos situamos en la carpeta donde queramos ejecutar el servidor en la línea de c
 
 `git clone https://github.com/Valraox/backend-co2-meter.git`
 
-Una vez clonado el repositorio instalaremos las dependencias de node con el comando
+Una vez clonado el repositorio nos situaremos en la carpeta creada por defecto con `cd backend-co2-meter` e instalaremos las dependencias de node con el comando
 
 `npm install`
 
