@@ -14,7 +14,7 @@ Instalar git para la descarga del proyecto:
 
 https://git-scm.com/downloads
 
-# Configuración
+# Instalación
 Nos situamos en la carpeta donde queramos ejecutar el servidor en la línea de comandos con el comando `cd` y ejecutamos 
 
 ```
