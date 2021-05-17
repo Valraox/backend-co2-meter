@@ -17,21 +17,24 @@ https://git-scm.com/downloads
 # Configuración
 Nos situamos en la carpeta donde queramos ejecutar el servidor en la línea de comandos con el comando `cd` y ejecutamos 
 
-`git clone https://github.com/Valraox/backend-co2-meter.git`
+```
+git clone https://github.com/Valraox/backend-co2-meter.git
+```
 
 Una vez clonado el repositorio nos situaremos en la carpeta creada por defecto con `cd backend-co2-meter` e instalaremos las dependencias de node con el comando
-
-`npm install`
-
+```
+npm install
+```
 # Ejecución del servidor
 Para poner a la escucha el servidor de Node ejecutaremos
-
-`npm start`
+```
+npm start
+```
 
 El servidor estará a la escucha en el puerto 3800. Si queremos ejecutar para desarrollo con watcher para los cambios en los archivos utilizando nodemon usaremos
-
-`npm run dev`
-
+```
+npm run dev
+```
 ## Rutas de la API
 Las rutas disponibles por la API parten de la ruta con el servidor en ejecución `http://<ipaddres>:3800/api`
 
