@@ -12,11 +12,19 @@ var mongoDBOptions = {
 }
 mongoose.set('useFindAndModify', false);
 mongoose.Promise = global.Promise;
-mongoose.connect(mongoURL, mongoDBOptions).then(() => {
-    console.log('La conexión a la base de datos se ha realizado correctamente');
+var connectWithRetry = function () {
+    return mongoose.connect(mongoURL, mongoDBOptions)
+        .then(() => {
+            console.log('La conexión a la base de datos se ha realizado correctamente');
 
-    // Crear servidor y escuchar peticiones http
-    app.listen(port, () => {
-        console.log('Servidor corriendo en ' + appUrl + ':' + port);
-    });
-});
+            // Crear servidor y escuchar peticiones http
+            app.listen(port, () => {
+                console.log('Servidor corriendo en ' + appUrl + ':' + port);
+            });
+        })
+        .catch(error => {
+            console.log('Error en la conexión a la base de datos, reconexión en 5 seg\n', error);
+            setTimeout(connectWithRetry, 5000);
+        });
+}
+connectWithRetry();
