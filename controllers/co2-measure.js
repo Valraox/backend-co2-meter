@@ -138,6 +138,32 @@ var controller = {
         var dateEnd = req.query.dateEnd;
         var dateFind = req.query.date;
 
+        // Validar datos (validator)
+        if (dateStart && !validator.isDate(dateStart, {
+                format: 'YYYY-MM-DD'
+            })) {
+            return res.status(200).send({
+                status: 'error',
+                message: 'Fallo de validación, el formato de la fecha no es válido, debe ser YYYY-MM-DD'
+            });
+        }
+        if (dateEnd && !validator.isDate(dateEnd, {
+                format: 'YYYY-MM-DD'
+            })) {
+            return res.status(200).send({
+                status: 'error',
+                message: 'Fallo de validación, el formato de la fecha no es válido, debe ser YYYY-MM-DD'
+            });
+        }
+        if (dateFind && !validator.isDate(dateFind, {
+                format: 'YYYY-MM-DD'
+            })) {
+            return res.status(200).send({
+                status: 'error',
+                message: 'Fallo de validación, el formato de la fecha no es válido, debe ser YYYY-MM-DD'
+            });
+        }
+
         // Crear objeto JSON para búsqueda
         var findQuery = {};
 
