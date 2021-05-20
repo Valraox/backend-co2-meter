@@ -25,6 +25,17 @@ Una vez clonado el repositorio nos situaremos en la carpeta creada por defecto c
 ```
 npm install
 ```
+Con las dependencias instaladas copiaremos el archivo de ejemplo de configuración con el comando
+```
+cp ./config.example.js ./config.js
+```
+Por defecto se configuran los siguientes parámetros:
+
+- `appURL: 'http://localhost'` : la URL de de la API
+- `port: 3800`: el puerto de escucha de la API
+- `mongoURL: 'mongodb://localhost:27017/'` : la URL de conexión a MongoDB
+- `dbName: 'api_rest_co2_meter'` : el nombre de la base de datos en MongoDB
+
 # Ejecución del servidor
 Para poner a la escucha el servidor de Node ejecutaremos
 ```
@@ -36,7 +47,7 @@ El servidor estará a la escucha en el puerto 3800. Si queremos ejecutar para de
 npm run dev
 ```
 ## Rutas de la API
-Las rutas disponibles por la API parten de la ruta con el servidor en ejecución `http://<ipaddres>:3800/api`
+Las rutas disponibles por la API parten de la ruta con el servidor en ejecución `http://<ipaddres>:<puerto>/api`
 
 - `/measures/save`: (POST) almacena una medida en la base de datos. Los parámetros del body que requiere son `deviceId` y `CO2ppm`
 - `/get-all/:sort?`: (GET) devuelve todas las medidas. Parámetro de URL opcional con campo a ordenar (añadir - al nombre del campo para ordenación descendente)
