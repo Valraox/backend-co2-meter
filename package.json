@@ -1,6 +1,6 @@
 {
   "name": "backend-co2-meter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "API RESTful de backend para medidores de CO2",
   "main": "index.js",
   "scripts": {
