@@ -26,36 +26,65 @@ var controller = {
         }
 
         if (validate_device_id) {
-            // Crear el objeto a guardar
-            var device = new deviceModel();
-
-            // Asignar valores
-            device.deviceId = params.deviceId;
-            device.IPAdress = IP;
-
-            // Guardar dispositivo
-            device.save((err, deviceStored) => {
-                if (err || !deviceStored) {
-                    return res.status(500).send({
+            // Comprobar que existe el dispositivo en la colección
+            var deviceId = params.deviceId;
+            deviceModel.exists({
+                deviceId: deviceId
+            }, (err, result) => {
+                if (err) {
+                    return res.status(200).send({
                         status: 'error',
-                        message: 'El dispositivo no se ha almacenado'
+                        message: err
                     });
-                }
+                } else {
+                    // Devolver que ya existe el dispositivo
+                    if (result) {
+                        return res.status(200).send({
+                            status: 'success',
+                            message: 'El dispositivo ya está en el sistema'
+                        });
+                    } else {
+                        // Crear el objeto a guardar
+                        var device = new deviceModel();
 
-                // Devolver una respuesta
-                return res.status(200).send({
-                    status: 'success',
-                    device: deviceStored
-                });
+                        // Asignar valores
+                        device.deviceId = deviceId;
+                        device.IPAdress = IP;
+
+                        // Guardar dispositivo
+                        device.save((err, deviceStored) => {
+                            if (err || !deviceStored) {
+                                return res.status(500).send({
+                                    status: 'error',
+                                    message: 'El dispositivo no se ha almacenado'
+                                });
+                            }
+
+                            // Devolver una respuesta
+                            return res.status(200).send({
+                                status: 'success',
+                                device: deviceStored
+                            });
+                        });
+                    }
+                }
             });
         }
     },
+    /*
+     ** Método para devolver si existe un dispositivo en colección
+     ** GET
+     ** URL params: deviceId
+     ** return HTTP response
+     */
     exits: (req, res) => {
         // Recoger id de dispositivo
         var deviceId = req.params.deviceId;
 
-        deviceModel.exists({deviceId: deviceId}, (err, result) => {
-            if (err){
+        deviceModel.exists({
+            deviceId: deviceId
+        }, (err, result) => {
+            if (err) {
                 return res.status(200).send({
                     status: 'error',
                     message: err
