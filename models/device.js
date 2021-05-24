@@ -6,7 +6,7 @@ var Schema = mongoose.Schema;
 var deviceSchema = Schema({
     deviceId: String,
     location: String,
-    IPAdress: String,
+    IPAddress: String,
     date: {
         type: Date,
         default: Date.now

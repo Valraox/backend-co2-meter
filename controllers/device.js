@@ -142,12 +142,12 @@ var controller = {
     searchDevices: (req, res) => {
         // Recoger parámetros GET
         var deviceId = req.query.deviceId;
-        var IPAdress = req.query.IPAdress;
+        var IPAddress = req.query.IPAddress;
         var location = req.query.location;
         var dateStart = req.query.dateStart;
         var dateEnd = req.query.dateEnd;
         var dateFind = req.query.date;
-
+        
         // Validar datos (validator)
         if (dateStart && !validator.isDate(dateStart, {
                 format: 'YYYY-MM-DD'
@@ -181,8 +181,8 @@ var controller = {
             findQuery.deviceId = deviceId;
         }
 
-        if (IPAdress) {
-            findQuery.IPAdress = IPAdress;
+        if (IPAddress) {
+            findQuery.IPAddress = IPAddress;
         }
 
         if (location) {
