@@ -49,7 +49,14 @@ npm run dev
 ## Rutas de la API
 Las rutas disponibles por la API parten de la ruta con el servidor en ejecución `http://<ipaddres>:<puerto>/api`
 
+### Rutas de medidas de CO2
 - `/measures/save`: (POST) almacena una medida en la base de datos. Los parámetros del body que requiere son `deviceId` y `CO2ppm`
 - `/get-all/:sort?`: (GET) devuelve todas las medidas. Parámetro de URL opcional con campo a ordenar (añadir - al nombre del campo para ordenación descendente)
 - `/get-measures/:deviceId`: (GET) devuelve todas las medidas de un dispositivo. Parámetro de URL obligatorio con el identificador del dispositivo a buscar
-- `/search`: (GET) devuelve las medidas buscadas mediante parámetros GET. Admite los parámetros `deviceID` `dateStart` `dateEnd` y `date`
+- `/search`: (GET) devuelve las medidas buscadas mediante parámetros GET. Admite los parámetros `deviceID`, `dateStart`, `dateEnd` y `date`
+
+### Rutas de dispositivos
+- `/devices/save`: (POST) almacena un dispositivo nuevo en la base de datos. El único parámetro del body que requiere es `deviceId`
+- `/devices/exists/:deviceId`: (GET) devuelve si existe el identificado de dispositivo que recibe como parámetro de la URL obligatorio
+- `/devices/get-all/:sort?`: (GET) devuelve todos los dispositivos. Parámetro de URL opcional con campo a ordenar (añadir - al nombre del campo para ordenación descendente)
+- `/devices/search`: (GET) devuelve los dispositivos buscados mediante parámetros GET. Admite los parámetros `deviceID`, `dateStart`, `dateEnd`, `date`, `location` y `IPAddress`
