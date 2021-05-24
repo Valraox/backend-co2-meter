@@ -71,13 +71,14 @@ var controller = {
             });
         }
     },
+
     /*
      ** Método para devolver si existe un dispositivo en colección
      ** GET
      ** URL params: deviceId
      ** return HTTP response
      */
-    exits: (req, res) => {
+    exists: (req, res) => {
         // Recoger id de dispositivo
         var deviceId = req.params.deviceId;
 
@@ -92,9 +93,135 @@ var controller = {
             } else {
                 return res.status(200).send({
                     status: 'success',
-                    exits: result
+                    result
                 });
             }
+        });
+    },
+
+    /*
+     ** Método para devolver todos los dispositivos
+     ** GET
+     ** URL params: sort?
+     ** return HTTP response
+     */
+    getAllDevices: (req, res) => {
+        // Recoger variable de campo a ordenar de la URL
+        var sort = req.params.sort;
+
+        // Find
+        deviceModel.find({}).sort(sort).exec((err, devices) => {
+            // Comprobar errores
+            if (err) {
+                return res.status(500).send({
+                    status: 'error',
+                    message: 'Error al obtener las medidas'
+                });
+            }
+
+            // Comprobar datos devueltos
+            if (!devices) {
+                return res.status(404).send({
+                    status: 'error',
+                    message: 'No hay dispositivos'
+                });
+            } else {
+                return res.status(200).send({
+                    status: 'success',
+                    devices
+                });
+            }
+        });
+    },
+
+    /*
+     ** Método para buscar dispositivos
+     ** GET params: deviceId, dateStart, dateEnd
+     ** return HTTP response
+     */
+    searchDevices: (req, res) => {
+        // Recoger parámetros GET
+        var deviceId = req.query.deviceId;
+        var IPAdress = req.query.IPAdress;
+        var location = req.query.location;
+        var dateStart = req.query.dateStart;
+        var dateEnd = req.query.dateEnd;
+        var dateFind = req.query.date;
+
+        // Validar datos (validator)
+        if (dateStart && !validator.isDate(dateStart, {
+                format: 'YYYY-MM-DD'
+            })) {
+            return res.status(200).send({
+                status: 'error',
+                message: 'Fallo de validación, el formato de la fecha no es válido, debe ser YYYY-MM-DD'
+            });
+        }
+        if (dateEnd && !validator.isDate(dateEnd, {
+                format: 'YYYY-MM-DD'
+            })) {
+            return res.status(200).send({
+                status: 'error',
+                message: 'Fallo de validación, el formato de la fecha no es válido, debe ser YYYY-MM-DD'
+            });
+        }
+        if (dateFind && !validator.isDate(dateFind, {
+                format: 'YYYY-MM-DD'
+            })) {
+            return res.status(200).send({
+                status: 'error',
+                message: 'Fallo de validación, el formato de la fecha no es válido, debe ser YYYY-MM-DD'
+            });
+        }
+
+        // Crear objeto JSON para búsqueda
+        var findQuery = {};
+
+        if (deviceId) {
+            findQuery.deviceId = deviceId;
+        }
+
+        if (IPAdress) {
+            findQuery.IPAdress = IPAdress;
+        }
+
+        if (location) {
+            findQuery.location = location;
+        }
+
+        if (dateStart && dateEnd) {
+            findQuery.date = {
+                $gte: dateStart,
+                $lte: dateEnd
+            };
+        } else if (dateStart) {
+            findQuery.date = {
+                $gte: dateStart
+            };
+        } else if (dateEnd) {
+            findQuery.date = {
+                $lte: dateEnd
+            };
+        } else if (dateFind) {
+            findQuery.date = {
+                $gte: new Date(dateFind).setHours(0, 0, 0),
+                $lte: new Date(dateFind).setHours(23, 59, 59)
+            };
+        }
+
+        deviceModel.find(findQuery, (err, devices) => {
+            if (err) {
+                return res.status(500).send({
+                    status: 'error',
+                    findQuery,
+                    message: 'Error al obtener los dispositivos'
+                });
+            }
+
+            return res.status(200).send({
+                status: 'success',
+                devices,
+            });
         });
     }
 }

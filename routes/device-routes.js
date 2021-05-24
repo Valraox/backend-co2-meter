@@ -7,6 +7,8 @@ var router = express.Router();
 
 // Rutas de dispositivos
 router.post('/save', deviceController.save);
-router.get('/exits/:deviceId', deviceController.exits);
+router.get('/exists/:deviceId', deviceController.exists);
+router.get('/get-all/:sort?', deviceController.getAllDevices);
+router.get('/search', deviceController.searchDevices);
 
 module.exports = router;

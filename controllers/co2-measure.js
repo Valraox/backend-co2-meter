@@ -127,7 +127,7 @@ var controller = {
     },
 
     /*
-     ** Método para devolver todas las unidades de medida
+     ** Método para buscar unidades de medida
      ** GET params: deviceId, dateStart, dateEnd
      ** return HTTP response
      */
