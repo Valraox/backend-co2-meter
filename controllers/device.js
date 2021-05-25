@@ -37,12 +37,28 @@ var controller = {
                         message: err
                     });
                 } else {
-                    // Devolver que ya existe el dispositivo
+                    // Devolver que ya existe el dispositivo y actualizar la IP
                     if (result) {
-                        return res.status(200).send({
-                            status: 'success',
-                            message: 'El dispositivo ya está en el sistema'
+                        var filter = {deviceId: deviceId};
+                        var update = {IPAddress: IP};
+                        
+                        deviceModel.findOneAndUpdate(filter, update, {
+                            new: true
+                        }, (err, deviceUpdated) => {
+                            if (err) {
+                                return res.status(500).send({
+                                    status: 'error',
+                                    message: 'Error al actualizar IP de dispositivo'
+                                });
+                            }
+
+                            return res.status(200).send({
+                                status: 'success',
+                                message: 'El dispositivo ya está en el sistema, actualizada dirección IP',
+                                deviceUpdated
+                            });
                         });
+                        
                     } else {
                         // Crear el objeto a guardar
                         var device = new deviceModel();
@@ -147,7 +163,7 @@ var controller = {
         var dateStart = req.query.dateStart;
         var dateEnd = req.query.dateEnd;
         var dateFind = req.query.date;
-        
+
         // Validar datos (validator)
         if (dateStart && !validator.isDate(dateStart, {
                 format: 'YYYY-MM-DD'
